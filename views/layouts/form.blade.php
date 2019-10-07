@@ -9,22 +9,8 @@
     $titleFormKey = $titleFormKey ?? 'title';
     $customForm = $customForm ?? false;
     $controlLanguagesPublication = $controlLanguagesPublication ?? true;
-
-    // WIP : waiting for BE dynamisation
-    $fieldsetLinks = json_encode([
-        [
-            'href' => '#',
-            'label' => 'Edit'
-        ],
-        [
-            'href' => '#',
-            'label' => 'Refresh'
-        ]
-    ]);
-    $fieldsetAction = json_encode([
-        'label' => 'Save',
-        'form_id' => 'notifications_form'
-    ]);
+    $fieldsetLinks = json_encode($fieldsetLinks ?? []);
+    $fieldsetAction = $fieldsetAction ?? null;
 @endphp
 
 @section('content')
@@ -74,7 +60,7 @@
                     </aside>
                     <section class="col col--primary">
                         @unless($disableContentFieldset ?? false)
-                            <a17-fieldset title="{{ $contentFieldsetLabel ?? 'Content' }}" :links="{{ $fieldsetLinks }}" :action="{{ $fieldsetAction }}" id="content" data-sticky-top="publisher">
+                            <a17-fieldset title="{{ $contentFieldsetLabel ?? 'Content' }}" :links="{{ $fieldsetLinks }}" @if($fieldsetAction) :action="{{ $fieldsetAction }}" @endif id="content" data-sticky-top="publisher">
                                 @yield('contentFields')
                             </a17-fieldset>
                         @endunless
