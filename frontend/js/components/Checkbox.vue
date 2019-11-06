@@ -1,16 +1,17 @@
 <template>
   <span class="checkbox">
-    <input type="checkbox" class="checkbox__input" :class="checkboxClasses" :value="value" :name="name" :id="uniqId" :disabled="disabled"  v-model="checkedValue">
+    <input type="checkbox" class="checkbox__input" :class="checkboxClasses" :locale="locale" @localize="updateLocale" :value="value" :name="name" :id="uniqId" :disabled="disabled"  v-model="checkedValue">
     <label class="checkbox__label" :for="uniqId">{{ label }} <span class="checkbox__icon"><span v-svg symbol="check"></span></span></label>
   </span>
 </template>
 
 <script>
   import randKeyMixin from '@/mixins/randKey'
+  import LocaleMixin from '@/mixins/locale'
 
   export default {
     name: 'A17Checkbox',
-    mixins: [randKeyMixin],
+    mixins: [randKeyMixin, LocaleMixin],
     props: {
       value: {
         default: ''
