@@ -11,11 +11,11 @@
     <a17-locale
         type="a17-singlecheckbox"
         :attributes="{
-            label: '{{ $label ?? '' }}',
+            label: '{{ $label }}',
             @include('twill::partials.form.utils._field_name', ['asAttributes' => true])
             @if ($note) note: '{{ $note }}', @endif
-            initialValue: {{ $default ? 'true' : 'false' }},
-            hasDefaultStore: true,
+            {{-- initialValue: {{ $default ? 'true' : 'false' }}, --}}
+            {{-- hasDefaultStore: true, --}}
             @if ($disabled) disabled: true, @endif
             inStore: 'value'
         }"
@@ -40,9 +40,7 @@
             name: '{{ $name }}',
             value: {
                 @foreach(getLocales() as $locale)
-                    '{{ $locale }}': {!! json_encode(
-                        $form_fields['translations'][$name][$locale] ?? ''
-                    ) !!}@unless($loop->last),@endif
+                    '{{ $locale }}': @if($form_fields['translations'][$name][$locale]) true @else false @endif,
                 @endforeach
             }
         })

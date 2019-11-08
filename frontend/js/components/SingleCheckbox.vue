@@ -1,9 +1,10 @@
 <template>
-  <a17-inputframe :error="error" :note="note" :name="name">
+  <a17-inputframe :error="error" :note="note" :name="name" :locale="locale" @localize="updateLocale">
     <div class="singleCheckbox">
       <span class="checkbox">
         <input type="checkbox" class="checkbox__input" :class="checkboxClasses" value="true" :name="name + '[' + randKey + ']'" :id="uniqId" :disabled="disabled">
-        <label class="checkbox__label" :for="uniqId" @click.prevent="changeCheckbox">{{ label }} <span class="checkbox__icon"><span v-svg symbol="check"></span></span></label>
+        <label class="checkbox__label" :for="uniqId" @click.prevent="changeCheckbox">{{ label }} <span class="input__lang" v-if="hasLocale && languages.length > 1" @click="onClickLocale" data-tooltip-title="Switch language" v-tooltip>{{ displayedLocale }}</span>
+        <span class="checkbox__icon"><span v-svg symbol="check"></span></span></label>
       </span>
     </div>
   </a17-inputframe>
@@ -13,10 +14,11 @@
   import randKeyMixin from '@/mixins/randKey'
   import InputframeMixin from '@/mixins/inputFrame'
   import FormStoreMixin from '@/mixins/formStore'
+  import LocaleMixin from '@/mixins/locale'
 
   export default {
     name: 'A17SingleCheckbox',
-    mixins: [randKeyMixin, InputframeMixin, FormStoreMixin],
+    mixins: [randKeyMixin, InputframeMixin, FormStoreMixin, LocaleMixin],
     props: {
       name: {
         type: String,
@@ -41,6 +43,9 @@
       }
     },
     computed: {
+      value: function () {
+        return this.checkedValue
+      },
       uniqId: function () {
         return this.name + '_' + this.randKey
       },
@@ -68,7 +73,15 @@
         this.checkedValue = newValue
       },
       changeCheckbox: function () {
+        console.log(this.checkedValue)
         this.checkedValue = !this.checkedValue
+        console.log(this.checkedValue)
+      },
+      updateValue: function (newValue) {
+        console.log(newValue)
+        console.log(this.checkedValue)
+        this.checkedValue = newValue
+        console.log(this.checkedValue)
       }
     }
   }
